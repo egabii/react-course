@@ -1,0 +1,25 @@
+.root-homework {
+    width: 1080px;
+    background-color: #f0faff;
+    padding: 15px 10px;
+    margin: 0 auto;
+}
+
+
+.output-container, .input-container {
+    padding: 7.5px;
+}
+
+.input-container,  .output-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.input-container {
+    justify-content: center;
+}
+
+.output-container {
+    justify-content: space-between;
+}
