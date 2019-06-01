@@ -1,60 +1,47 @@
 import React, {useState} from 'react';
 
-import Card from  '../Card/Card';
 import InputUser from './InputUser';
 import OutputUser from './OutputUser';
 
 import rootClasses from './Root.module.css';
 
-const Root = () => { 
-    const [userNameState, setUserName] = useState({ userName: 'Gabriel Muller' });
-    const titleInputUser = 'InputUser Component';
-    const titleOutputUser = 'OutputUser Component';
-    const randomTextList = [
-        {text: 'Hello world!'},
-        {text: 'This is another component!'},
-        {text: 'React Course - The Complete Guide'}
-    ];
-    const cardStyles = {
-        'width': '280px',
-        'box-sizing': 'border-box',
-        'display': 'flex',
-        'flex-direction': 'column',
-        'box-shadow': '0 2px 4px 0 rgba(0,0,0,.5)',
-        'padding': '8px',
-        'background-color': '#fff'
-    };
-    const inputUserCardStyle = Object.assign({}, cardStyles,  { width: '600px' } );
 
+const Root = () => { 
+    const [userNameState, setUserNameState] = useState({ userName: 'Gabriel Muller' });
+    const [cardsTextState, setCardsTextState] = useState([
+        {id: 'vId1', text: 'Hello world!'},
+        {id: 'vId2', text: 'This is another component!'},
+        {id: 'vId3', text: 'React Course - The Complete Guide'}
+    ]);
 
     const handlerChangeUserName = (event) => {
-        setUserName({
+        setUserNameState({
             userName: event.target.value
         });
     };
 
+    const deleteHandler = (itemId) => {
+        const newTextState = cardsTextState.filter(item => item.id !== itemId);
+        setCardsTextState(newTextState);
+    };
 
     return (
         <div className={rootClasses['root-homework']}>
             <div className={rootClasses['input-container']}>
-                <Card title={titleInputUser} styles={inputUserCardStyle}>
-                    <InputUser
-                        defaultValue={userNameState.userName} 
-                        changeUserName={handlerChangeUserName} />
-                </Card>
+                <InputUser
+                    defaultValue={userNameState.userName} 
+                    changeUserName={handlerChangeUserName} />
             </div>
 
             <div className={rootClasses['output-container']}>
                 {
-                    randomTextList.map(item => {
+                    cardsTextState.map((item) => {
                         return (
-                            <Card title={titleOutputUser} styles={cardStyles}>
-                                <OutputUser 
-                                    userName={userNameState.userName}
-                                    key={`outputUser-${item.text}`}>
-                                    {item.text}
-                                </OutputUser>
-                            </Card>
+                            <OutputUser 
+                                userName={userNameState.userName}
+                                text={item.text} 
+                                key={item.id} 
+                                onDeleteNode={() => deleteHandler(item.id)} />
                         )
                     })
                 }
